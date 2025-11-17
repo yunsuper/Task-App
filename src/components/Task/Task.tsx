@@ -1,8 +1,26 @@
-import React from 'react'
+import { type FC } from 'react'
+import { container, title, description } from "./Task.css";
 
-const Task = () => {
+type TTaskProps = {
+  taskName: string;
+  taskDescription: string;
+  boardId: string;
+  id: string;
+  index: number;
+}
+
+const Task: FC<TTaskProps> = ({
+  taskName,
+  taskDescription,
+  boardId,
+  id,
+  index
+}) => {
   return (
-    <div>Task</div>
+    <div className={container}>
+      <div className={title}>{taskName}</div>
+      <div className={description}>{taskDescription}</div>
+    </div>
   )
 }
 
