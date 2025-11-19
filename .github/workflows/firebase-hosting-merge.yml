@@ -17,10 +17,12 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm install           
-          npm run build      
+          npm run build  
+        working-directory: ./react-task-app     
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_TEST_APP_2_E01ED }}
           channelId: live
           projectId: react-test-app-2-e01ed
+          working-directory: ./react-task-app   
