@@ -23,12 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-README.md
-package.json
-tsconfig.app.json
-tsconfig.node.json
-tsconfig.json
-vite.config.ts
-eslint.config.js
+
 
 # Dependency directories and files
