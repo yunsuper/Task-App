@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: '20'
       - name: Install dependencies and build
+        working-directory: ./
         run: |
           npm install           
           npm run build     
@@ -24,3 +25,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_TEST_APP_2_E01ED }}
           channelId: live
           projectId: react-test-app-2-e01ed
+          working-directory: ./ 
