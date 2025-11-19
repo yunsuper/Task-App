@@ -25,7 +25,6 @@ dist-ssr
 
 README.md
 package.json
-package-lock.json
 tsconfig.app.json
 tsconfig.node.json
 tsconfig.json
