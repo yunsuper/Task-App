@@ -10,6 +10,7 @@ import { addLog } from '../../store/slices/loggerSlices';
 import { type ITask } from '../../types';
 import { setModalData } from '../../store/slices/modalSlices';
 import { listWrapper, header, name, deleteButton } from "./List.css";
+import { Droppable } from '@hello-pangea/dnd';
 
 type TListProps = {
   list: IList;
@@ -26,13 +27,13 @@ const List: FC<TListProps> = ({
   const handleListDelete = (listId: string) => {
     dispatch(deleteList({ boardId, listId }));
     dispatch(
-      addLog({
-        logId: uuidv4(),
-        logMessage: `리스트 삭제하기: ${list.listName}`,
-        logAuthor: "User",
-        logTimestamp: String(Date.now())
-      })
-    )
+        addLog({
+            logId: uuidv4(),
+            logMessage: `리스트 삭제하기: ${list.listName}`,
+            logAuthor: "User",
+            logTimestamp: new Date().toISOString(),
+        })
+    );
   }
 
   const handleTaskChange = (
@@ -46,35 +47,49 @@ const List: FC<TListProps> = ({
       listId,
       task
     }));
-    dispatch(setModalActive(true));
+    dispatch(setModalActive(false));
   }
 
   return (
-      <div className={listWrapper}>
-          <div className={header}>
-              <div className={name}>{list.listName}</div>
-        <GrSubtract
-          className={deleteButton}
-          onClick={()=> handleListDelete(list.listId)}
-        />
-          </div>
-          {list.tasks.map((task, index) => (
-            <div
-              onClick={()=> handleTaskChange(boardId, list.listId, task.taskId, task)}
-              key={task.taskId}>
-              <Task
-                taskName={task.taskName}
-                taskDescription={task.taskDescription}
-                boardId={boardId}
-                id={task.taskId}
-                index={index}
-              />
+      <Droppable droppableId={list.listId}>
+          {provided => (
+        <div
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+          className={listWrapper}>
+                  <div className={header}>
+                      <div className={name}>{list.listName}</div>
+                      <GrSubtract
+                          className={deleteButton}
+                          onClick={() => handleListDelete(list.listId)}
+                      />
+                  </div>
+                  {list.tasks.map((task, index) => (
+                      <div
+                          onClick={() =>
+                              handleTaskChange(
+                                  boardId,
+                                  list.listId,
+                                  task.taskId,
+                                  task
+                              )
+                          }
+                          key={task.taskId}
+                      >
+                          <Task
+                              taskName={task.taskName}
+                              taskDescription={task.taskDescription}
+                              boardId={boardId}
+                              id={task.taskId}
+                              index={index}
+                          />
+                      </div>
+                  ))}
+                  {provided.placeholder}
+                  <ActionButton boardId={boardId} listId={list.listId} />
               </div>
-          ))}
-      <ActionButton
-        boardId={boardId}
-        listId={list.listId} />
-      </div>
+          )}
+      </Droppable>
   );
 }
 

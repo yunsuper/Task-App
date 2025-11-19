@@ -1,5 +1,6 @@
 import { type FC } from 'react'
 import { container, title, description } from "./Task.css";
+import { Draggable } from '@hello-pangea/dnd';
 
 type TTaskProps = {
   taskName: string;
@@ -17,11 +18,18 @@ const Task: FC<TTaskProps> = ({
   index
 }) => {
   return (
-    <div className={container}>
-      <div className={title}>{taskName}</div>
-      <div className={description}>{taskDescription}</div>
-    </div>
-  )
+      <Draggable draggableId={id} index={index}>
+          {(provided) => (
+        <div className={container}
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}>
+                  <div className={title}>{taskName}</div>
+                  <div className={description}>{taskDescription}</div>
+              </div>
+          )}
+      </Draggable>
+  );
 }
 
 export default Task
