@@ -10,20 +10,19 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
           check-latest: true
       - name: Install dependencies and build
         working-directory: ./
         run: |
-          npm install           
-          npm run build     
+          npm install
+          npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_TEST_APP_2_E01ED }}
           channelId: live
           projectId: react-test-app-2-e01ed
-          working-directory: ./
